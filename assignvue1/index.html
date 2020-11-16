@@ -17,92 +17,31 @@
     <div id = "app">
         <header>
             <h1 v-text="sitename"></h1>
+            <button v-on:click='showCheckout'>{{cartItemCount}} 
+                <span class="fa fa-cart-plus"> </span> Checkout </button>
         </header>
         <main>
             <div class="card-columns">
+            <div v-if = 'showProduct'>
                 <div class="card">
-                  <img class="card-img-top" src="...">
-                  <div class="card-body">
-                        <h5 class="card-title">"Subject"</h5>
-                        <p class="card-text">Location:</p>
-                        <p class="card-text">Price:</p>
-                        <p class="card-text">Availability:</p>
-                        <a href="#" class="btn btn-primary">Add to Cart</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
+                            <h5 class="card-title" v-text="'Subject:'+' ' + product.SubjectTitle"></h5>
+                            <p class="card-text" v-html="'Location:'+' ' + product.Location"></p>
+                            <p class="card-text">Price: {{product.price}}</p>
+                            <p class="card-text">Available: {{product.showInventory}}</p>
+                            <button v-on:click='addToCart' v-if='canAddToCart'> Add to Cart</button>
+                            <button disabled = 'disabled' v-else> Add to Cart</button> 
+                      </div>
                   </div>
-              </div>
+                
+            </div>
+            <div v-else>
+
+            </div>
+
+            
+                
+            </div>
         </main>
     </div>
     </div>
@@ -116,8 +55,39 @@
         el: '#app',
         data: {
             showProduct: true,
-            sitename: 'Temp',                            
-        },           
+            sitename: 'Temp',
+            store: [], //Creation of an empty array called store
+            product: {
+                id: 1001,
+                SubjectTitle: "Maths",
+                Location: "Blackbird Down Street",
+                price: 20,
+                image: "images/product-fullsize.png",
+                availableInventory: 5,
+                showInventory: 5
+            },                           
+        },    
+        methods:{
+            addToCart: function(){
+                // product id (in this case 1001) will be stored in the store array
+                this.store.push(this.product.id);
+                this.product.showInventory -= 1;
+            },
+            showCheckout: function(){
+                this.showProduct =this.showProduct ? false : true;
+            },
+            submitForm(){
+                alert('order has been placed')
+            }
+        }, 
+        computed:{
+            cartItemCount: function(){
+                return this.store.length || '';
+            },
+            canAddToCart: function(){
+                return this.product.availableInventory > this.cartItemCount;
+            }
+        }      
     });
 </script>
 </html>
