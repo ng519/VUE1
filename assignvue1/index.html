@@ -25,22 +25,28 @@
             <div v-if = 'showProduct'>
                 <div class="card">
                     <div class="card-body">
-                            <h5 class="card-title" v-text="'Subject:'+' ' + product.SubjectTitle"></h5>
-                            <p class="card-text" v-html="'Location:'+' ' + product.Location"></p>
-                            <p class="card-text">Price: {{product.price}}</p>
-                            <p class="card-text">Available: {{product.showInventory}}</p>
-                            <button v-on:click='addToCart' v-if='canAddToCart'> Add to Cart</button>
-                            <button disabled = 'disabled' v-else> Add to Cart</button> 
-                      </div>
-                  </div>
+                        <h5 class="card-title" v-text="'Subject:'+' ' + product.SubjectTitle[0]"></h5>
+                        <p class="card-text" v-html="'Location:'+' ' + product.Location[0]"></p>
+                        <p class="card-text">Price: {{product.price[0]}}</p>
+                        <p class="card-text">Available: {{product.showInventory}}</p>
+                        <button v-on:click='addToCart' v-if='canAddToCart'> Add to Cart</button>
+                        <button disabled = 'disabled' v-else> Add to Cart</button> 
+                    </div>
+                </div>
                 
             </div>
             <div v-else>
                 <h2>Checkout</h2>
+                <div v-if = ''>
+                    {{ this.store }}
+                    {{ this.store }}
+                    <!-- <h2>Order Information</h2>
+                    <p>Price: {{product.price}}</p>
+                    <p>Location: {{product.Location}}</p> -->
+                </div>
+
             </div>
 
-            
-                
             </div>
         </main>
     </div>
@@ -58,10 +64,10 @@
             sitename: 'Temp',
             store: [], //Creation of an empty array called store
             product: {
-                id: 1001,
-                SubjectTitle: "Maths",
-                Location: "Blackbird Down Street",
-                price: 20,
+                id: [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010],
+                SubjectTitle: ['Math', 'English', '', '', '', '', '', '', '', ''],
+                Location: ['Blackbird Down Street', 'English', '', '', '', '', '', '', '', ''],
+                price: [20, 17, 25, 23, 20, 20, 15, 17, 21, 30],
                 image: "images/product-fullsize.png",
                 availableInventory: 5,
                 showInventory: 5
@@ -69,7 +75,7 @@
         },    
         methods:{
             addToCart: function(){
-                // product id (in this case 1001) will be stored in the store array
+                // product id will be stored in the store array
                 this.store.push(this.product.id);
                 this.product.showInventory -= 1;
             },
