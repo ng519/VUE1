@@ -17,8 +17,8 @@
     <div id = "app">
         <header>
             <h1 v-text="sitename"></h1>
-            <button v-on:click='showCheckout'>{{cartItemCount}} 
-                <span class="fa fa-cart-plus"> </span> Checkout </button>
+            <button v-on:click='showCheckout' v-if='this.store.length >=1'>{{cartItemCount}} 
+            <span class="fa fa-cart-plus"> </span> Checkout </button>
         </header>
         <main>
             <div class="card-columns">
@@ -36,7 +36,7 @@
                 
             </div>
             <div v-else>
-
+                <h2>Checkout</h2>
             </div>
 
             
