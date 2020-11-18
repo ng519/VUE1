@@ -30,7 +30,7 @@
                         <p class="card-text">Location: {{ product.Location }}</p>
                         <p class="card-text">Price: {{product.price}}</p>
                         <p class="card-text">Available: {{product.showInventory}}</p>
-                        <button v-on:click='addToCart(product)' v-if='canAddToCart'> Add to Cart</button>
+                        <button v-on:click='addToCart(product)' v-if='canAddToCart(product)'> Add to Cart</button>
                         <button disabled = 'disabled' v-else> Add to Cart</button> 
                     </div>
                 </div>
@@ -87,13 +87,20 @@
                 alert('order has been placed')
             },
             canAddToCart(product){
-                return products.availableInventory > this.cartItemCount(product.id);
+                return product.availableInventory > this.cartItemCount(product.id);
+            },
+            cartItemCount(id){
+                let count = 0;
+                for(let i = 0; i < this.store.length; i++) {
+                    if (this.store[i] === id) {
+                        count++;
+                    }
+                }
+                return count;
             }
         }, 
         computed:{
-            cartItemCount: function(){
-                return this.store.length || '';
-            }
+            
         }      
     });
 </script>
