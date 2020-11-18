@@ -35,7 +35,13 @@
 
                     <input type = "radio" id = "Avail" value = "Avail" v-model = "filtered.method">
                     <label for = "">Availability</label>
+                    <br>
+                    <input type = "radio" id = "Asc" value = "Asc" v-model = "cending.method">
+                    <label for = "">Ascending</label>
 
+                    <input type = "radio" id = "Desc" value = "Desc" v-model = "cending.method">
+                    <label for = "">Descending</label>
+                    <br>
                     <button v-on:click="whichSortToDo()">Apply</button>
                 </p>
                 <!-- <div v-for="product in products"> -->
@@ -106,6 +112,9 @@
             filtered: {
                 method: 'Unfiltered'
             },
+            cending: {
+                method: 'Asc'
+            },
             order: {
                 firstName: "",
                 lastName: "",
@@ -174,41 +183,85 @@
             },
             sortedProductsPrice: function() {
                 // the comparison function that defines the order
-                function compare(a, b) {
-                if (a.price > b.price) return 1;
-                if (a.price < b.price) return -1;
-                return 0;
-                }
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.price > b.price) return 1;
+                    if (a.price < b.price) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.price < b.price) return 1;
+                    if (a.price > b.price) return -1;
+                    return 0;  
+                    }
+                }        
                 // sort the 'products' array and return it
                 return this.products.sort(compare);
             },
             sortedProductsLoc: function() {
                 // the comparison function that defines the order
-                function compare(a, b) {
-                if (a.Location > b.Location) return 1;
-                if (a.Location < b.Location) return -1;
-                return 0;
-                }
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.Location > b.Location) return 1;
+                    if (a.Location < b.Location) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.Location < b.Location) return 1;
+                    if (a.Location > b.Location) return -1;
+                    return 0;  
+                    }
+                }        
                 // sort the 'products' array and return it
                 return this.products.sort(compare);
             },
             sortedProductsAvail: function() {
                 // the comparison function that defines the order
-                function compare(a, b) {
-                if (a.availableInventory > b.availableInventory) return 1;
-                if (a.availableInventory < b.availableInventory) return -1;
-                return 0;
-                }
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.availableInventory > b.availableInventory) return 1;
+                    if (a.availableInventory < b.availableInventory) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.availableInventory < b.availableInventory) return 1;
+                    if (a.availableInventory > b.availableInventory) return -1;
+                    return 0;  
+                    }
+                }        
                 // sort the 'products' array and return it
                 return this.products.sort(compare);
             },
             sortedProductsSjTitle: function() {
                 // the comparison function that defines the order
-                function compare(a, b) {
-                if (a.SubjectTitle > b.SubjectTitle) return 1;
-                if (a.SubjectTitle < b.SubjectTitle) return -1;
-                return 0;
-                }
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.SubjectTitle > b.SubjectTitle) return 1;
+                    if (a.SubjectTitle < b.SubjectTitle) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.SubjectTitle < b.SubjectTitle) return 1;
+                    if (a.SubjectTitle > b.SubjectTitle) return -1;
+                    return 0;  
+                    }
+                }        
                 // sort the 'products' array and return it
                 return this.products.sort(compare);
             },
