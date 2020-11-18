@@ -39,10 +39,35 @@
             </div>
             <div v-else>
                 <h2>Checkout</h2>
-                <div v-if = ''>
+                
                     {{ this.store }}
-                </div>
+                        <form>
+                            <p>
+                                <strong>First Name: </strong>
+                                <!-- This input field is bound to 'firstName' in the 'order' object -->
+                                <input type="text" v-model.trim="order.firstName" required/>
+                                <br>
+                                <p>
+                                    <strong>Last Name: </strong>
+                                    <!-- This input field is bound to 'lastName' in the 'order' object -->
+                                    <input type="text" v-model.trim="order.lastName"/>
+                                </p>
+                                <br>
+                                <p>
+                                    <strong>Phone Number: </strong> 
+                                    <input type="number" v-model="order.phoneNumber"/> <!-- Need to add special validation-->
+                                </p>
+                                <br>
+                            </p>
+                        </form>
+                    
+                        <h2>Order Information</h2>
+                        <p>First Name: {{ order.firstName }}</p>
+                        <p>Last Name: {{ order.lastName }}</p>
+                        <p>Phone Number: {{ order.phoneNumber }}</p>
 
+                        <button v-if="order.firstName && order.lastName && order.phoneNumber" v-on:click="submitForm()">Place Order</button>
+                        <button disabled = 'disabled' v-else> Place Order</button>
             </div>
 
             </div>
@@ -61,6 +86,11 @@
             showProduct: true,
             sitename: 'Temp',
             store: [], //Creation of an empty array called store
+            order: {
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+            },
             products: [
                 {"id": 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
                 {"id": 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5},
@@ -83,6 +113,7 @@
                 this.showProduct =this.showProduct ? false : true;
             },
             submitForm(){
+                
                 alert('order has been placed')
             },
             canAddToCart(product){
@@ -96,10 +127,9 @@
                     }
                 }
                 return count;
-            }
+            },
         }, 
         computed:{
-            
         }      
     });
 </script>
