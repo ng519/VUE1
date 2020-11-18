@@ -18,7 +18,7 @@
         <header>
             <h1 v-text="sitename"></h1>
             <button v-on:click='showCheckout' v-if='this.store.length >=1'>{{cartItemCount}} 
-            <span class="fa fa-cart-plus"> </span> Checkout </button>
+            <span class="fa fa-cart-plus"> </span> Checkout </button><br><br>
         </header>
         <main>
             <div class="card-columns">
@@ -44,7 +44,6 @@
                     <br>
                     <button v-on:click="whichSortToDo()">Apply</button>
                 </p>
-                <!-- <div v-for="product in products"> -->
                 <div v-for="product in products">
                 <div class="card">
                     <div class="card-body">
@@ -56,13 +55,16 @@
                         <button disabled = 'disabled' v-else> Add to Cart</button> 
                     </div>
                 </div>
-                <!-- </div> -->
                 </div>
             </div>
             <div v-else>
                 <h2>Checkout</h2>
                 
-                    {{ this.store }}
+                <div v-for="(value, name) in store">
+                    Subject: {{ value }} <button v-on:click="deleteEvent(name)">Delete</button>
+                </div>
+
+                    <br>
                         <form>
                             <p>
                                 <strong>First Name: </strong>
@@ -82,11 +84,10 @@
                                 <br>
                             </p>
                         </form>
-                    
-                        <h2>Order Information</h2>
-                        <p>First Name: {{ order.firstName }}</p>
-                        <p>Last Name: {{ order.lastName }}</p>
-                        <p>Phone Number: {{ order.phoneNumber }}</p>
+
+                        <p>First Name: {{ order.firstName }}</p><br>
+                        <p>Last Name: {{ order.lastName }}</p><br>
+                        <p>Phone Number: {{ order.phoneNumber }}</p><br>
 
                         <button v-if="order.firstName && order.lastName && order.phoneNumber" v-on:click="submitForm()">Place Order</button>
                         <button disabled = 'disabled' v-else> Place Order</button>
@@ -120,29 +121,33 @@
                 lastName: "",
                 phoneNumber: "",
             },
+            productOrder: [
+                {
+                    id: "", SubjectTitle: "", Location: "", price: "", availableInventory: ""},
+                    
+                ],
             products: [
-                {"id": 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5},
-                {"id": 1003, SubjectTitle: "Physics", Location: "Paradise East", price: 25, availableInventory: 5, showInventory: 5},
-                {"id": 1004, SubjectTitle: "Art", Location: "Dene Park", price: 23, availableInventory: 5, showInventory: 5},
-                {"id": 1005, SubjectTitle: "Computer Studies", Location: "Mallow Walk", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1006, SubjectTitle: "Italian", Location: "Fairview Oaks", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1007, SubjectTitle: "French", Location: "Enfield Holt", price: 15, availableInventory: 5, showInventory: 5},
-                {"id": 1008, SubjectTitle: "Graphical Communication", Location: "Elms Beeches", price: 17, availableInventory: 5, showInventory: 5},
-                {"id": 1009, SubjectTitle: "PSHE", Location: "Goshen Road", price: 21, availableInventory: 5, showInventory: 5},
-                {"id": 1010, SubjectTitle: "German", Location: "Hudson Highway", price: 30, availableInventory: 5, showInventory: 5},
+                {id: 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
+                {id: 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5},
+                {id: 1003, SubjectTitle: "Physics", Location: "Paradise East", price: 25, availableInventory: 5, showInventory: 5},
+                {id: 1004, SubjectTitle: "Art", Location: "Dene Park", price: 23, availableInventory: 5, showInventory: 5},
+                {id: 1005, SubjectTitle: "Computer Studies", Location: "Mallow Walk", price: 20, availableInventory: 5, showInventory: 5},
+                {id: 1006, SubjectTitle: "Italian", Location: "Fairview Oaks", price: 20, availableInventory: 5, showInventory: 5},
+                {id: 1007, SubjectTitle: "French", Location: "Enfield Holt", price: 15, availableInventory: 5, showInventory: 5},
+                {id: 1008, SubjectTitle: "Graphical Communication", Location: "Elms Beeches", price: 17, availableInventory: 5, showInventory: 5},
+                {id: 1009, SubjectTitle: "PSHE", Location: "Goshen Road", price: 21, availableInventory: 5, showInventory: 5},
+                {id: 1010, SubjectTitle: "German", Location: "Hudson Highway", price: 30, availableInventory: 5, showInventory: 5},
             ],                           
         },    
         methods:{
             addToCart(product){
-                // product id will be stored in the store array
-                this.store.push(product.id);
+                this.store.push(product.SubjectTitle);
+                //this.productOrder.push(product.id, product.Location, product.SubjectTitle, product.availableInventory, product.price);
             },
             showCheckout: function(){
                 this.showProduct =this.showProduct ? false : true;
             },
             submitForm(){
-                
                 alert('order has been placed')
             },
             canAddToCart(product){
@@ -156,6 +161,9 @@
                     }
                 }
                 return count;
+            },
+            deleteEvent: function(index) {
+                this.store.splice(index, 1);
             },
             whichSortToDo() {
                 if(this.filtered.method == "SjTitle")
