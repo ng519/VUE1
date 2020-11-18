@@ -23,7 +23,24 @@
         <main>
             <div class="card-columns">
             <div v-if = 'showProduct'>
-                <div v-for="product in products">
+                <p>
+                    <input type = "radio" id = "SjTitle" value = "SjTitle" v-model = "filtered.method">
+                    <label for = "">SubjectTitle</label>
+
+                    <input type = "radio" id = "pric" value = "pric" v-model = "filtered.method">
+                    <label for = "business">price</label>
+
+                    <input type = "radio" id = "loc" value = "loc" v-model = "filtered.method">
+                    <label for = "business">Location</label>
+
+                    <input type = "radio" id = "Avail" value = "Avail" v-model = "filtered.method">
+                    <label for = "business">Availability</label>
+
+                    <input type = "radio" id = "Avail" value = "Avail" v-model = "filtered.method">
+                    <label for = "business">Clear Filters</label>
+                </p>
+                <!-- <div v-for="product in products"> -->
+                    <div v-for="product in sortedProducts">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"> Subject: {{ product.SubjectTitle }}</h5>
@@ -34,8 +51,8 @@
                         <button disabled = 'disabled' v-else> Add to Cart</button> 
                     </div>
                 </div>
+                <!-- </div> -->
                 </div>
-                
             </div>
             <div v-else>
                 <h2>Checkout</h2>
@@ -85,7 +102,11 @@
         data: {
             showProduct: true,
             sitename: 'Temp',
+            filterIsSelected: false,
             store: [], //Creation of an empty array called store
+            filtered: {
+                method: 'Unfiltered'
+            },
             order: {
                 firstName: "",
                 lastName: "",
@@ -130,6 +151,17 @@
             },
         }, 
         computed:{
+            sortedProducts() {
+            // the comparison function that defines the order
+            function compare(a, b) {
+            if (a.price > b.price) return 1;
+            if (a.price < b.price) return -1;
+            return 0;
+            }
+            // sort the 'products' array and return it
+            return this.products.sort(compare);
+            }
+
         }      
     });
 </script>
