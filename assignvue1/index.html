@@ -233,16 +233,16 @@
                 if(this.cending.method == "Asc") 
                 {
                     function compare(a, b) {
-                    if (a.availableInventory > b.availableInventory) return 1;
-                    if (a.availableInventory < b.availableInventory) return -1;
+                    if (a.showInventory > b.showInventory) return 1;
+                    if (a.showInventory < b.showInventory) return -1;
                     return 0;  
                     }
                 }  
                 else //Desc
                 {
                     function compare(a, b) {
-                    if (a.availableInventory < b.availableInventory) return 1;
-                    if (a.availableInventory > b.availableInventory) return -1;
+                    if (a.showInventory < b.showInventory) return 1;
+                    if (a.showInventory > b.showInventory) return -1;
                     return 0;  
                     }
                 }        
