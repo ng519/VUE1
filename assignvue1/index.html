@@ -60,7 +60,7 @@
             <div v-else>
                 <h2>Checkout</h2>
                 
-                <div v-for="(value, name) in store">
+                <div v-for="(value, name) in productOrder">
                     Subject: {{ value }} <button v-on:click="deleteEvent(name)">Delete</button>
                 </div>
 
@@ -121,11 +121,7 @@
                 lastName: "",
                 phoneNumber: "",
             },
-            productOrder: [
-                {
-                    id: "", SubjectTitle: "", Location: "", price: "", availableInventory: ""},
-                    
-                ],
+            productOrder: [],
             products: [
                 {id: 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
                 {id: 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5},
@@ -141,8 +137,9 @@
         },    
         methods:{
             addToCart(product){
-                this.store.push(product.SubjectTitle);
-                //this.productOrder.push(product.id, product.Location, product.SubjectTitle, product.availableInventory, product.price);
+                this.store.push(product.id);
+                this.productOrder.push(product.SubjectTitle);
+                product.showInventory -= 1;
             },
             showCheckout: function(){
                 this.showProduct =this.showProduct ? false : true;
@@ -163,7 +160,7 @@
                 return count;
             },
             deleteEvent: function(index) {
-                this.store.splice(index, 1);
+                this.productOrder.splice(index, 1);
             },
             whichSortToDo() {
                 if(this.filtered.method == "SjTitle")
