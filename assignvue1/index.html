@@ -27,10 +27,10 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"> Subject: {{ product.SubjectTitle }}</h5>
-                        <p class="card-text" v-html="'Location:'+' ' + product.Location"></p>
+                        <p class="card-text">Location: {{ product.Location }}</p>
                         <p class="card-text">Price: {{product.price}}</p>
                         <p class="card-text">Available: {{product.showInventory}}</p>
-                        <button v-on:click='addToCart' v-if='canAddToCart'> Add to Cart</button>
+                        <button v-on:click='addToCart(product)' v-if='canAddToCart'> Add to Cart</button>
                         <button disabled = 'disabled' v-else> Add to Cart</button> 
                     </div>
                 </div>
@@ -41,10 +41,6 @@
                 <h2>Checkout</h2>
                 <div v-if = ''>
                     {{ this.store }}
-                    {{ this.store }}
-                    <!-- <h2>Order Information</h2>
-                    <p>Price: {{product.price}}</p>
-                    <p>Location: {{product.Location}}</p> -->
                 </div>
 
             </div>
@@ -67,43 +63,36 @@
             store: [], //Creation of an empty array called store
             products: [
                 {"id": 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "English", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "Physics", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "Art", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "Computer Studies", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "Italian", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "French", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "Graphical Communication", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "PSHE", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {"id": 1001, SubjectTitle: "German", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                // id: [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010],
-                // SubjectTitle: ['Math', 'English', 'Physics', 'Art', 'Computer Studies', 'German', 'Italian', 'French', 'Graphical Communication', 'PSHE'],
-                // Location: ['Blackbird Down', 'English Street', 'Paradise East', 'Dene Park', 'Mallow Walk', 'Fairview Oaks', 'Enfield Holt', 'Elms Beeches', 'Goshen Road', 'Hudson Highway'],
-                // price: [20, 17, 25, 23, 20, 20, 15, 17, 21, 30],
-                // image: "images/product-fullsize.png",
-                // availableInventory: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-                // showInventory: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+                {"id": 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5},
+                {"id": 1003, SubjectTitle: "Physics", Location: "Paradise East", price: 25, availableInventory: 5, showInventory: 5},
+                {"id": 1004, SubjectTitle: "Art", Location: "Dene Park", price: 23, availableInventory: 5, showInventory: 5},
+                {"id": 1005, SubjectTitle: "Computer Studies", Location: "Mallow Walk", price: 20, availableInventory: 5, showInventory: 5},
+                {"id": 1006, SubjectTitle: "Italian", Location: "Fairview Oaks", price: 20, availableInventory: 5, showInventory: 5},
+                {"id": 1007, SubjectTitle: "French", Location: "Enfield Holt", price: 15, availableInventory: 5, showInventory: 5},
+                {"id": 1008, SubjectTitle: "Graphical Communication", Location: "Elms Beeches", price: 17, availableInventory: 5, showInventory: 5},
+                {"id": 1009, SubjectTitle: "PSHE", Location: "Goshen Road", price: 21, availableInventory: 5, showInventory: 5},
+                {"id": 1010, SubjectTitle: "German", Location: "Hudson Highway", price: 30, availableInventory: 5, showInventory: 5},
             ],                           
         },    
         methods:{
             addToCart(product){
                 // product id will be stored in the store array
                 this.store.push(product.id);
-                this.product.showInventory -= 1;
+                this.products.showInventory -= 1;
             },
             showCheckout: function(){
                 this.showProduct =this.showProduct ? false : true;
             },
             submitForm(){
                 alert('order has been placed')
+            },
+            canAddToCart(product){
+                return products.availableInventory > this.cartItemCount(product.id);
             }
         }, 
         computed:{
             cartItemCount: function(){
                 return this.store.length || '';
-            },
-            canAddToCart: function(){
-                return this.products.availableInventory > this.cartItemCount;
             }
         }      
     });
