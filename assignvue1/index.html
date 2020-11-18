@@ -17,7 +17,7 @@
     <div id = "app">
         <header>
             <h1 v-text="sitename"></h1>
-            <button v-on:click='showCheckout' v-if='this.store.length >=1'>{{cartItemCount}} 
+            <button v-on:click='showCheckout' v-if='this.store.length >=1'>{{this.store.length}} 
             <span class="fa fa-cart-plus"> </span> Checkout </button><br><br>
         </header>
         <main>
@@ -107,7 +107,7 @@
         el: '#app',
         data: {
             showProduct: true,
-            sitename: 'Temp',
+            sitename: 'The Shop',
             filterIsSelected: false,
             store: [], //Creation of an empty array called store
             filtered: {
