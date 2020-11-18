@@ -47,10 +47,11 @@
                 <div v-for="product in products">
                 <div class="card">
                     <div class="card-body">
+                        <img class="card-img-top" v-bind:src="product.image" alt="Card image cap">
                         <h5 class="card-title"> Subject: {{ product.SubjectTitle }}</h5>
                         <p class="card-text">Location: {{ product.Location }}</p>
                         <p class="card-text">Price: {{product.price}}</p>
-                        <p class="card-text">Available: {{product.showInventory}}</p> <!--THIS DOES NOT WORK-->
+                        <p class="card-text">Available: {{product.showInventory}}</p>
                         <button v-on:click='addToCart(product)' v-if='canAddToCart(product)'> Add to Cart</button>
                         <button disabled = 'disabled' v-else> Add to Cart</button> 
                     </div>
@@ -79,7 +80,7 @@
                                 <br>
                                 <p>
                                     <strong>Phone Number: </strong> 
-                                    <input type="number" v-model="order.phoneNumber"/> <!-- Need to add special validation-->
+                                    <input type="number" v-model="order.phoneNumber"/>
                                 </p>
                                 <br>
                             </p>
@@ -103,6 +104,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
   <script type="text/javascript">
+
     var webstore = new Vue({
         el: '#app',
         data: {
@@ -123,16 +125,16 @@
             },
             productOrder: [],
             products: [
-                {id: 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5},
-                {id: 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5},
-                {id: 1003, SubjectTitle: "Physics", Location: "Paradise East", price: 25, availableInventory: 5, showInventory: 5},
-                {id: 1004, SubjectTitle: "Art", Location: "Dene Park", price: 23, availableInventory: 5, showInventory: 5},
-                {id: 1005, SubjectTitle: "Computer Studies", Location: "Mallow Walk", price: 20, availableInventory: 5, showInventory: 5},
-                {id: 1006, SubjectTitle: "Italian", Location: "Fairview Oaks", price: 20, availableInventory: 5, showInventory: 5},
-                {id: 1007, SubjectTitle: "French", Location: "Enfield Holt", price: 15, availableInventory: 5, showInventory: 5},
-                {id: 1008, SubjectTitle: "Graphical Communication", Location: "Elms Beeches", price: 17, availableInventory: 5, showInventory: 5},
-                {id: 1009, SubjectTitle: "PSHE", Location: "Goshen Road", price: 21, availableInventory: 5, showInventory: 5},
-                {id: 1010, SubjectTitle: "German", Location: "Hudson Highway", price: 30, availableInventory: 5, showInventory: 5},
+                {id: 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1003, SubjectTitle: "Physics", Location: "Paradise East", price: 25, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1004, SubjectTitle: "Art", Location: "Dene Park", price: 23, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1005, SubjectTitle: "Computer Studies", Location: "Mallow Walk", price: 20, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1006, SubjectTitle: "Italian", Location: "Fairview Oaks", price: 20, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1007, SubjectTitle: "French", Location: "Enfield Holt", price: 15, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1008, SubjectTitle: "Graphical Communication", Location: "Elms Beeches", price: 17, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1009, SubjectTitle: "PSHE", Location: "Goshen Road", price: 21, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1010, SubjectTitle: "German", Location: "Hudson Highway", price: 30, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
             ],                           
         },    
         methods:{
