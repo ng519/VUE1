@@ -38,9 +38,11 @@
 
                     <input type = "radio" id = "ClearF" value = "ClearF" v-model = "filtered.method">
                     <label for = "">Clear Filters</label>
+
+                    <button v-on:click="whichSortToDo()">Apply</button>
                 </p>
                 <!-- <div v-for="product in products"> -->
-                    <div v-for="product in sortedProducts">
+                <div v-for="product in sortedProducts">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"> Subject: {{ product.SubjectTitle }}</h5>
@@ -149,8 +151,33 @@
                 }
                 return count;
             },
+            whichSortToDo() {
+                if(this.filtered.method == "SjTitle")
+                {
+                    console.log("Subject");
+                }
+                else if(this.filtered.method == "pric")
+                {
+                    console.log("Price");
+                }
+                else if(this.filtered.method == "loc")
+                {
+                    console.log("Loc");
+                }
+                else if(this.filtered.method == "Avail")
+                {
+                    console.log("Avail");
+                }
+                else if(this.filtered.method == "ClearF")
+                {
+                    console.log("Clear");
+                }
+                else
+                {}
+            },
         }, 
         computed:{
+            
             sortedProducts() {
             // the comparison function that defines the order
             function compare(a, b) {
