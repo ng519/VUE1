@@ -29,7 +29,7 @@
                         <h5 class="card-title"> Subject: {{ product.SubjectTitle }}</h5>
                         <p class="card-text">Location: {{ product.Location }}</p>
                         <p class="card-text">Price: {{product.price}}</p>
-                        <p class="card-text">Available: {{product.showInventory}}</p>
+                        <p class="card-text">Available: {{product.showInventory}}</p> <!--THIS DOES NOT WORK-->
                         <button v-on:click='addToCart(product)' v-if='canAddToCart(product)'> Add to Cart</button>
                         <button disabled = 'disabled' v-else> Add to Cart</button> 
                     </div>
@@ -78,7 +78,6 @@
             addToCart(product){
                 // product id will be stored in the store array
                 this.store.push(product.id);
-                this.products.showInventory -= 1;
             },
             showCheckout: function(){
                 this.showProduct =this.showProduct ? false : true;
