@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Vue.js Pet Depot</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+
+  <body>
+    <div class="container">
+    <div id = "app">
+        <header>
+            <h1 v-text="sitename"></h1>
+            <button v-on:click='showCheckout' v-if='this.store.length >=1'>{{this.store.length}} 
+            <span class="fa fa-cart-plus"> </span> Checkout </button><br><br>
+        </header>
+        <main>
+            <div class="card-columns">
+            <div v-if = 'showProduct'>
+                <p>
+                    <input type = "radio" id = "SjTitle" value = "SjTitle" v-model = "filtered.method">
+                    <label for = "">Subject</label>
+
+                    <input type = "radio" id = "pric" value = "pric" v-model = "filtered.method">
+                    <label for = "">price</label>
+
+                    <input type = "radio" id = "loc" value = "loc" v-model = "filtered.method">
+                    <label for = "">Location</label>
+
+                    <input type = "radio" id = "Avail" value = "Avail" v-model = "filtered.method">
+                    <label for = "">Availability</label>
+                    <br>
+                    <input type = "radio" id = "Asc" value = "Asc" v-model = "cending.method">
+                    <label for = "">Ascending</label>
+
+                    <input type = "radio" id = "Desc" value = "Desc" v-model = "cending.method">
+                    <label for = "">Descending</label>
+                    <br>
+                    <button v-on:click="whichSortToDo()">Apply</button>
+                </p>
+                <div v-for="product in products">
+                <div class="card">
+                    <div class="card-body">
+                        <img class="card-img-top" v-bind:src="product.image" alt="Card image cap">
+                        <h5 class="card-title"> Subject: {{ product.SubjectTitle }}</h5>
+                        <p class="card-text">Location: {{ product.Location }}</p>
+                        <p class="card-text">Price: {{product.price}}</p>
+                        <p class="card-text">Available: {{product.showInventory}}</p>
+                        <button v-on:click='addToCart(product)' v-if='canAddToCart(product)'> Add to Cart</button>
+                        <button disabled = 'disabled' v-else> Add to Cart</button> 
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div v-else>
+                <h2>Checkout</h2>
+                
+                <div v-for="(value, name) in productOrder">
+                    Subject: {{ value }} <button v-on:click="deleteEvent(name)">Delete</button>
+                </div>
+
+                    <br>
+                        <form>
+                            <p>
+                                <strong>First Name: </strong>
+                                <!-- This input field is bound to 'firstName' in the 'order' object -->
+                                <input type="text" v-model.trim="order.firstName" required/>
+                                <br>
+                                <p>
+                                    <strong>Last Name: </strong>
+                                    <!-- This input field is bound to 'lastName' in the 'order' object -->
+                                    <input type="text" v-model.trim="order.lastName"/>
+                                </p>
+                                <br>
+                                <p>
+                                    <strong>Phone Number: </strong> 
+                                    <input type="number" v-model="order.phoneNumber"/>
+                                </p>
+                                <br>
+                            </p>
+                        </form>
+
+                        <p>First Name: {{ order.firstName }}</p><br>
+                        <p>Last Name: {{ order.lastName }}</p><br>
+                        <p>Phone Number: {{ order.phoneNumber }}</p><br>
+
+                        <button v-if="order.firstName && order.lastName && order.phoneNumber" v-on:click="submitForm()">Place Order</button>
+                        <button disabled = 'disabled' v-else> Place Order</button>
+            </div>
+
+            </div>
+        </main>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+  <script type="text/javascript">
+
+    var webstore = new Vue({
+        el: '#app',
+        data: {
+            showProduct: true,
+            sitename: 'The Shop',
+            filterIsSelected: false,
+            store: [], //Creation of an empty array called store
+            filtered: {
+                method: 'Unfiltered'
+            },
+            cending: {
+                method: 'Asc'
+            },
+            order: {
+                firstName: "",
+                lastName: "",
+                phoneNumber: "",
+            },
+            productOrder: [],
+            products: [
+                {id: 1001, SubjectTitle: "Math", Location: "Blackbird Down", price: 20, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1002, SubjectTitle: "English", Location: "English Street", price: 17, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1003, SubjectTitle: "Physics", Location: "Paradise East", price: 25, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1004, SubjectTitle: "Art", Location: "Dene Park", price: 23, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1005, SubjectTitle: "Computer Studies", Location: "Mallow Walk", price: 20, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1006, SubjectTitle: "Italian", Location: "Fairview Oaks", price: 20, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1007, SubjectTitle: "French", Location: "Enfield Holt", price: 15, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1008, SubjectTitle: "Graphical Communication", Location: "Elms Beeches", price: 17, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1009, SubjectTitle: "PSHE", Location: "Goshen Road", price: 21, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+                {id: 1010, SubjectTitle: "German", Location: "Hudson Highway", price: 30, availableInventory: 5, showInventory: 5, image: "img/place.jpg"},
+            ],                           
+        },    
+        methods:{
+            addToCart(product){
+                this.store.push(product.id);
+                this.productOrder.push(product.SubjectTitle);
+                product.showInventory -= 1;
+            },
+            showCheckout: function(){
+                this.showProduct =this.showProduct ? false : true;
+            },
+            submitForm(){
+                alert('order has been placed')
+            },
+            canAddToCart(product){
+                return product.availableInventory > this.cartItemCount(product.id);
+            },
+            cartItemCount(id){
+                let count = 0;
+                for(let i = 0; i < this.store.length; i++) {
+                    if (this.store[i] === id) {
+                        count++;
+                    }
+                }
+                return count;
+            },
+            deleteEvent: function(index) {
+                this.productOrder.splice(index, 1);
+            },
+            whichSortToDo() {
+                if(this.filtered.method == "SjTitle")
+                {
+                    console.log("Subject");
+                    this.sortedProductsSjTitle();
+                }
+                else if(this.filtered.method == "pric")
+                {
+                    console.log("Price");
+                    this.sortedProductsPrice();                    
+                }
+                else if(this.filtered.method == "loc")
+                {
+                    console.log("Loc");
+                    this.sortedProductsLoc();
+                }
+                else if(this.filtered.method == "Avail")
+                {
+                    console.log("Avail");
+                    this.sortedProductsAvail();
+                }
+                else
+                {}
+            },
+            sortedProductsPrice: function() {
+                // the comparison function that defines the order
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.price > b.price) return 1;
+                    if (a.price < b.price) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.price < b.price) return 1;
+                    if (a.price > b.price) return -1;
+                    return 0;  
+                    }
+                }        
+                // sort the 'products' array and return it
+                return this.products.sort(compare);
+            },
+            sortedProductsLoc: function() {
+                // the comparison function that defines the order
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.Location > b.Location) return 1;
+                    if (a.Location < b.Location) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.Location < b.Location) return 1;
+                    if (a.Location > b.Location) return -1;
+                    return 0;  
+                    }
+                }        
+                // sort the 'products' array and return it
+                return this.products.sort(compare);
+            },
+            sortedProductsAvail: function() {
+                // the comparison function that defines the order
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.showInventory > b.showInventory) return 1;
+                    if (a.showInventory < b.showInventory) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.showInventory < b.showInventory) return 1;
+                    if (a.showInventory > b.showInventory) return -1;
+                    return 0;  
+                    }
+                }        
+                // sort the 'products' array and return it
+                return this.products.sort(compare);
+            },
+            sortedProductsSjTitle: function() {
+                // the comparison function that defines the order
+                if(this.cending.method == "Asc") 
+                {
+                    function compare(a, b) {
+                    if (a.SubjectTitle > b.SubjectTitle) return 1;
+                    if (a.SubjectTitle < b.SubjectTitle) return -1;
+                    return 0;  
+                    }
+                }  
+                else //Desc
+                {
+                    function compare(a, b) {
+                    if (a.SubjectTitle < b.SubjectTitle) return 1;
+                    if (a.SubjectTitle > b.SubjectTitle) return -1;
+                    return 0;  
+                    }
+                }        
+                // sort the 'products' array and return it
+                return this.products.sort(compare);
+            },
+        }, 
+        computed:{
+           
+        }      
+    });
+</script>
+</html>
